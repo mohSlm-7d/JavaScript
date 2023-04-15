@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Class Inheritance</h2>
+
+<p>Use the "extends" keyword to inherit all methods from another class.</p>
+<p>Use the "super" method to call the parent's constructor function.</p>
+
+<p id="demo"></p>
+
+<script>
+class Car {
+  //static is class-scope (class scope not instance scope). shared between all objects but it's not related to any of them. (related to the class).
+  //static attribute or(property) (count).
+  static count = 0;
+  
+  constructor(brand) {
+    this._carname = brand;
+    Car.count++;
+  }
+  present() {
+    return 'I have a ' + this.carname;
+  }
+  
+  
+  //here the getter works as property in C# (also the setter in js is the same).
+  
+  /*but unlike C# (in which the property has both (set) and (get) inside it) 
+  in js the (setter) & (getter) are independet from each other and each one of them is a method.*/
+  get carname(){
+    return `${this._carname} `;
+  }
+  set carname(value){
+    this._carname = value;
+  }
+
+  //static method. (getCount()).
+  static get Count(){
+    return Car.count;
+  }
+}
+
+class Model extends Car {
+  constructor(brand, model) {
+    super(brand);
+    this._model = model;
+  }
+  show() {
+    return this.present() + ', it is a ' + this.model;
+  }
+
+  /*Overriding the implementation of the inherited method (present()) =>continue=>
+  (inherited from parent class(which is Car here))  =>continue=> in the sub class (Model).*/
+  
+  //present() here is an overriding.
+  present(){
+    return `Mohammad has a ${this.carname}, and `;
+  }
+
+  get model(){
+    if(this._model){
+      return `${this._model}`;
+    }
+    return``;
+  }
+  set model(value){
+    this._model = value;
+  }
+}
+
+let myCar = new Model("Ford", "Mustang");
+document.getElementById("demo").innerHTML = myCar.show();
+document.getElementById("demo").innerHTML +="<br>"+ Car.Count;
+
+myCar = new Model("Dodge", "Challenger");
+
+document.getElementById("demo").innerHTML += "<br>" + Car.Count;
+
+document.getElementById("demo").innerHTML += "<br>" + myCar.carname;
+
+myCar.carname = "Porche";
+document.getElementById("demo").innerHTML += "<br>" + myCar.carname;
+
+/*(this) here is global this (because here is the global scope)
+  & global this is the window object.*/
+let car_type = this.prompt('what is your car ?').split(' ')[0];
+myCar.carname = car_type.split(' ')[0];
+myCar.model = car_type.split(' ')[1];
+console.log(`I am Mohammad and my car is ${myCar.carname} ${myCar.model}`);
+
+//Testing JSON...
+let map = new Map([
+    ["Mohammad Salman", 20190901], 
+    ["Mahmoud Owaida", 20190345],
+    ["Ali Salah", 20190297]
+    ]);
+    
+let text= `{"employees":[
+	{"firstName":"Mohammad", "lastName":"Salman", "id":${map.get("Mohammad Salman")}},
+    {"firstName":"Mahmoud", "lastName":"Owaida", "id":${map.get("Mahmoud Owaida")}},
+    {"firstName":"Ali", "lastName":"Salah", "id":${map.get("Ali Salah")}}
+	]
+}`;
+const Department = JSON.parse(text);
+document.getElementById("demo").innerHTML =
+Department.employees[0].firstName + " " + Department.employees[0].lastName +" " +Department.employees[0].id;
+
+text = `[
+	{"firstName":"Mohammad", "lastName":"Salman", "id":${map.get("Mohammad Salman")}},
+    {"firstName":"Mahmoud", "lastName":"Owaida", "id":${map.get("Mahmoud Owaida")}},
+    {"firstName":"Ali", "lastName":"Salah", "id":${map.get("Ali Salah")}}
+	]`;
+let Employee =JSON.parse(text);
+
+document.getElementById("demo").innerHTML=`${Employee[0].firstName} ${Employee[0].lastName}'s ID is: ${Employee[0].id}`;
+
+</script>
+
+</body>
+</html>
