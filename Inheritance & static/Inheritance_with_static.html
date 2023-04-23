@@ -114,7 +114,7 @@ text = `[
 let Employee =JSON.parse(text);
 
 document.getElementById("demo").innerHTML=`${Employee[0].firstName} ${Employee[0].lastName}'s ID is: ${Employee[0].id}`;
-
+console.table(Employee);
 </script>
 
 </body>
